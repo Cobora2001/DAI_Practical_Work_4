@@ -1,33 +1,16 @@
 package ch.heigvd;
 
 import java.util.LinkedList;
-import java.util.Objects;
 
 public class Film {
-    static private int nextID = 1;
-
-    private final int id;
     private String title;
     private String description;
-    private final LinkedList<Review> reviews;
-    private final LinkedList<Genre> genres;
+    private LinkedList<Genre> genres;
+    private int nbReviews;
+    private double meanReviews;
 
-    private double meanReview = -1;
+    public Film() {
 
-    private Film(String title, String description, LinkedList<Genre> genres) {
-        this.title = title;
-        this.description = description;
-        this.genres = Objects.requireNonNullElseGet(genres, LinkedList::new);
-        this.reviews = new LinkedList<>();
-        this.id = nextID++;
-    }
-
-    public Film createFilm(String title, String description, LinkedList<Genre> genres) {
-        if(title == null || title.isEmpty()) {
-            System.out.println("Invalid title, aborting");
-            return null;
-        }
-        return new Film(title, description, genres);
     }
 
     public void setTitle(String title) {
@@ -38,48 +21,134 @@ public class Film {
         this.description = description;
     }
 
-    public void setInfo(String title, String description) {
+    public void setGenres(LinkedList<Genre> genres) {
+        this.genres = genres;
+    }
+
+    public void setNbReviews(int nbReviews) {
+        this.nbReviews = nbReviews;
+    }
+
+    public void setMeanReviews(double meanReviews) {
+        this.meanReviews = meanReviews;
+    }
+
+    public Film(String title, String description, LinkedList<Genre> genres) {
         this.title = title;
         this.description = description;
+        this.genres = genres;
+        this.nbReviews = 0;
+        this.meanReviews = 3;
     }
 
-    public void addGenre(Genre genre) {
-        boolean isInList = false;
-        int size = genres.size();
+    public Film(String title, String description, String genres) {
+        this(title, description, genresSeparator(genres));
+    }
 
-        for(int i = 0; i < size && !isInList; ++i) {
-            if(genre == genres.get(i)) {
-                isInList = true;
+    public void addReview(double newMeanReviews) {
+        nbReviews += 1;
+        this.meanReviews = newMeanReviews;
+    }
+
+    public void deleteReview(double newMeanReviews) {
+        nbReviews -= 1;
+        this.meanReviews = newMeanReviews;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public LinkedList<Genre> getGenres() {
+        return genres;
+    }
+
+    public int getNbReviews() {
+        return nbReviews;
+    }
+
+    public double getMeanReviews() {
+        return meanReviews;
+    }
+
+    static private Genre genreInterpreter(String genreString) {
+        if(genreString == null) {
+            return null;
+        }
+        if(genreString.equalsIgnoreCase("Action")) {
+            return Genre.Action;
+        }
+        if(genreString.equalsIgnoreCase("Animation")) {
+            return Genre.Animation;
+        }
+        if(genreString.equalsIgnoreCase("Comedy")) {
+            return Genre.Comedy;
+        }
+        if(genreString.equalsIgnoreCase("Crime")) {
+            return Genre.Crime;
+        }
+        if(genreString.equalsIgnoreCase("Drama")) {
+            return Genre.Drama;
+        }
+        if(genreString.equalsIgnoreCase("Experimental")) {
+            return Genre.Experimental;
+        }
+        if(genreString.equalsIgnoreCase("Fantasy")) {
+            return Genre.Fantasy;
+        }
+        if(genreString.equalsIgnoreCase("Historical")) {
+            return Genre.Historical;
+        }
+        if(genreString.equalsIgnoreCase("Horror")) {
+            return Genre.Horror;
+        }
+        if(genreString.equalsIgnoreCase("Romance")) {
+            return Genre.Romance;
+        }
+        if(genreString.equalsIgnoreCase("ScienceFiction")) {
+            return Genre.ScienceFiction;
+        }
+        if(genreString.equalsIgnoreCase("Thriller")) {
+            return Genre.Thriller;
+        }
+        if(genreString.equalsIgnoreCase("Western")) {
+            return Genre.Western;
+        }
+        if(genreString.equalsIgnoreCase("Other")) {
+            return Genre.Other;
+        }
+        return null;
+    }
+
+    static private LinkedList<Genre> genresSeparator(String genresString) {
+        if(genresString == null) {
+            return null;
+        }
+
+        String[] genres = genresString.split("-");
+
+        LinkedList<Genre> genresList = new LinkedList<>();
+
+        for(String genreString : genres) {
+            Genre genre = genreInterpreter(genreString);
+            if(genre != null) {
+                boolean notInList = true;
+                for(Genre genreList : genresList) {
+                    if(genreList == genre) {
+                        notInList = false;
+                        break;
+                    }
+                }
+                if(notInList) {
+                    genresList.add(genre);
+                }
             }
         }
-
-        if(!isInList) {
-            genres.add(genre);
-        }
+        return genresList;
     }
 
-    public void addReview(Review review) {
-        reviews.add(review);
-        meanReview = meanReview();
-    }
-
-    private double meanReview() {
-        int numberOfReviews = 0;
-        double sum = 0;
-
-        for(Review review : reviews) {
-            ++numberOfReviews;
-            sum += review.getRating();
-        }
-
-        return sum / numberOfReviews;
-    }
-
-    @Override
-    public String toString() {
-        return "ID: " + id + "\nTitle: " + title +
-                "\nDescription: " + description +
-                (meanReview < 0 ? "" : "\nMean of the reviews (3 by default)" + meanReview) +
-                "\nGenre(s): " + genres;
-    }
 }

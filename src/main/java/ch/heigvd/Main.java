@@ -1,17 +1,45 @@
 package ch.heigvd;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+import ch.heigvd.Database;
+import io.javalin.Javalin;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+public class Main {
+    public final static int PORT = 8080;
+
+    public static void main(String[] args) {
+        Javalin app = Javalin.create();
+
+        // Databases
+        Database database = new Database();
+
+        // Movies routes
+        app.post("/dashboard/", database::addFilm);
+        app.post("/dashboard", database::addFilm);
+        app.get("/dashboard/", database::getFilms);
+        app.get("/dashboard", database::getFilms);
+
+        // Movie routes
+        app.get("/dashboard/{filmId}", database::getFilm);
+        app.get("/dashboard/{filmId}/", database::getFilm);
+        app.put("/dashboard/{filmId}", database::updateFilm);
+        app.put("/dashboard/{filmId}/", database::updateFilm);
+
+        // Reviews routes
+        app.post("/dashboard/{filmId}/reviews", database::addReview);
+        app.post("/dashboard/{filmId}/reviews/", database::addReview);
+        app.get("/dashboard/{filmId}/reviews", database::getReviews);
+        app.get("/dashboard/{filmId}/reviews/", database::getReviews);
+
+        // Review routes
+        app.get("/dashboard/{filmId}/reviews/{reviewId}", database::getReview);
+        app.get("/dashboard/{filmId}/reviews/{reviewId}/", database::getReview);
+        app.put("/dashboard/{filmId}/reviews/{reviewId}", database::updateReview);
+        app.put("/dashboard/{filmId}/reviews/{reviewId}/", database::updateReview);
+
+        // Genres routes
+
+        // Genre routes
+
+        app.start(PORT);
     }
 }
