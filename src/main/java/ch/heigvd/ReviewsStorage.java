@@ -46,4 +46,8 @@ public class ReviewsStorage {
 
         return divider > 0 ? somme / divider : 3.;
     }
+
+    public void delete(int id) {
+        reviews.remove(id);
+    }
 }

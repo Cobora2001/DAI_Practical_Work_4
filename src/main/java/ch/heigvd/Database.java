@@ -45,24 +45,30 @@ public class Database {
         ctx.json(films);
     }
 
-    public void getFilm(Context ctx) {
-        Integer id = ctx.pathParamAsClass("filmId", Integer.class)
+    private Integer getIdFilm(Context ctx) {
+        return ctx.pathParamAsClass("filmId", Integer.class)
                 .check(filmId -> films.get(filmId) != null && reviews.get(filmId) != null, "Film not found")
                 .getOrThrow(message -> new NotFoundResponse());
+    }
+
+    public void getFilm(Context ctx) {
+        Integer id = getIdFilm(ctx);
 
         ctx.json(films.get(id));
     }
 
-    public void updateFilm(Context ctx) {
-        Integer id = ctx.pathParamAsClass("filmId", Integer.class)
-                .check(filmId -> films.get(filmId) != null && reviews.get(filmId) != null, "Film not found")
-                .getOrThrow(message -> new NotFoundResponse());
-
-        Film film = ctx.bodyValidator(Film.class)
+    private Film createFilm(Context ctx) {
+        return ctx.bodyValidator(Film.class)
                 .check(obj -> obj.getTitle() != null, "Missing title")
                 .check(obj -> !obj.getTitle().isEmpty(), "Empty title")
                 .check(obj -> !obj.getDescription().isEmpty(), "Empty description")
                 .get();
+    }
+
+    public void updateFilm(Context ctx) {
+        Integer id = getIdFilm(ctx);
+
+        Film film = createFilm(ctx);
 
         Film finalFilm = films.get(id);
 
@@ -88,11 +94,7 @@ public class Database {
     }
 
     public void addFilm(Context ctx) {
-        Film film = ctx.bodyValidator(Film.class)
-                .check(obj -> obj.getTitle() != null, "Missing title")
-                .check(obj -> !obj.getTitle().isEmpty(), "Empty title")
-                .check(obj -> !obj.getDescription().isEmpty(), "Empty description")
-                .get();
+        Film film = createFilm(ctx);
 
         Film finalFilm = new Film();
 
@@ -115,35 +117,46 @@ public class Database {
         ctx.json(finalFilm);
     }
 
-    public void getReviews(Context ctx) {
-        Integer id = ctx.pathParamAsClass("filmId", Integer.class)
-                .check(filmId -> reviews.get(filmId) != null && films.get(filmId) != null, "Film not found")
-                .getOrThrow(message -> new NotFoundResponse());
+    public void deleteFilm(Context ctx) {
+        Integer id = getIdFilm(ctx);
 
-        ctx.json(reviews.get(id));
+        reviews.remove(id);
+        films.remove(id);
+
+        ctx.status(HttpStatus.NO_CONTENT);
+    }
+
+    public void getReviews(Context ctx) {
+        Integer id = getIdFilm(ctx);
+
+        ctx.json(reviews.get(id).getReviews());
+    }
+
+    private Integer getIdReview(Context ctx, int idFilm) {
+        return ctx.pathParamAsClass("reviewId", Integer.class)
+                .check(reviewId -> reviews.get(idFilm).getReviews().get(reviewId) != null, "Review not found")
+                .getOrThrow(message -> new NotFoundResponse());
     }
 
     public void getReview(Context ctx) {
-        Integer idFilm = ctx.pathParamAsClass("filmId", Integer.class)
-                .check(filmId -> reviews.get(filmId) != null && films.get(filmId) != null, "Film not found")
-                .getOrThrow(message -> new NotFoundResponse());
+        Integer idFilm = getIdFilm(ctx);
 
-        Integer idReview = ctx.pathParamAsClass("reviewId", Integer.class)
-                .check(reviewId -> reviews.get(idFilm).getReviews().get(reviewId) != null, "Review not found")
-                .getOrThrow(message -> new NotFoundResponse());
+        Integer idReview = getIdReview(ctx, idFilm);
 
         ctx.json(reviews.get(idFilm).getReviews().get(idReview));
     }
 
-    public void addReview(Context ctx) {
-        Integer idFilm = ctx.pathParamAsClass("filmId", Integer.class)
-                .check(filmId -> reviews.get(filmId) != null && films.get(filmId) != null, "Film not found")
-                .getOrThrow(message -> new NotFoundResponse());
-
-        Review review = ctx.bodyValidator(Review.class)
+    private Review createReview(Context ctx) {
+        return ctx.bodyValidator(Review.class)
                 .check(obj -> obj.getRating() != null, "Missing rating")
                 .check(obj -> obj.getComment() != null, "Missing comment")
                 .get();
+    }
+
+    public void addReview(Context ctx) {
+        Integer idFilm = getIdFilm(ctx);
+
+        Review review = createReview(ctx);
 
         Review newReview = new Review();
 
@@ -155,24 +168,18 @@ public class Database {
 
         storage.addReview(newReview);
 
+        films.get(idFilm).addReview(reviews.get(idFilm).getMeanReviews());
+
         ctx.status(HttpStatus.CREATED);
         ctx.json(newReview);
-
     }
 
     public void updateReview(Context ctx) {
-        Integer idFilm = ctx.pathParamAsClass("filmId", Integer.class)
-                .check(filmId -> reviews.get(filmId) != null && films.get(filmId) != null, "Film not found")
-                .getOrThrow(message -> new NotFoundResponse());
+        Integer idFilm = getIdFilm(ctx);
 
-        Integer idReview = ctx.pathParamAsClass("reviewId", Integer.class)
-                .check(reviewId -> reviews.get(idFilm).getReviews().get(reviewId) != null, "Review not found")
-                .getOrThrow(message -> new NotFoundResponse());
+        Integer idReview = getIdReview(ctx, idFilm);
 
-        Review review = ctx.bodyValidator(Review.class)
-                .check(obj -> obj.getRating() != null, "Missing rating")
-                .check(obj -> obj.getComment() != null, "Missing comment")
-                .get();
+        Review review = createReview(ctx);
 
         Review newReview = reviews.get(idFilm).getReviews().get(idReview);
 
@@ -181,6 +188,17 @@ public class Database {
         newReview.setComment(review.getComment());
 
         ctx.json(newReview);
+    }
 
+    public void deleteReview(Context ctx) {
+        Integer idFilm = getIdFilm(ctx);
+
+        Integer idReview = getIdReview(ctx, idFilm);
+
+        reviews.get(idFilm).delete(idReview);
+
+        films.get(idFilm).deleteReview(reviews.get(idFilm).getMeanReviews());
+
+        ctx.status(HttpStatus.NO_CONTENT);
     }
 }

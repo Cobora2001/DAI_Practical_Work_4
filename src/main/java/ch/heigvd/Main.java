@@ -1,6 +1,5 @@
 package ch.heigvd;
 
-import ch.heigvd.Database;
 import io.javalin.Javalin;
 
 public class Main {
@@ -23,6 +22,8 @@ public class Main {
         app.get("/dashboard/{filmId}/", database::getFilm);
         app.put("/dashboard/{filmId}", database::updateFilm);
         app.put("/dashboard/{filmId}/", database::updateFilm);
+        app.delete("/dashboard/{filmId}", database::deleteFilm);
+        app.delete("/dashboard/{filmId}/", database::deleteFilm);
 
         // Reviews routes
         app.post("/dashboard/{filmId}/reviews", database::addReview);
@@ -35,10 +36,8 @@ public class Main {
         app.get("/dashboard/{filmId}/reviews/{reviewId}/", database::getReview);
         app.put("/dashboard/{filmId}/reviews/{reviewId}", database::updateReview);
         app.put("/dashboard/{filmId}/reviews/{reviewId}/", database::updateReview);
-
-        // Genres routes
-
-        // Genre routes
+        app.delete("/dashboard/{filmId}/reviews/{reviewId}", database::deleteReview);
+        app.delete("/dashboard/{filmId}/reviews/{reviewId}/", database::deleteReview);
 
         app.start(PORT);
     }
