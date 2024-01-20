@@ -25,12 +25,12 @@ public class Database {
         LinkedList<Genre> genres2 = new LinkedList<>();
         genres2.add(Genre.Animation);
 
-        films.put(nextIndex, new Film("L'Arch de Noe", "Un film sur un element majeur de la religion", genres1));
+        films.put(nextIndex, new Film(nextIndex, "L'Arch de Noe", "Un film sur un element majeur de la religion", genres1));
         reviews.put(nextIndex++, new ReviewsStorage());
 
         genres2.add(Genre.Fantasy);
 
-        films.put(nextIndex, new Film("San Gohan", "Un film de dragon ball", genres2));
+        films.put(nextIndex, new Film(nextIndex, "San Gohan", "Un film de dragon ball", genres2));
         reviews.put(nextIndex++, new ReviewsStorage());
 
         reviews.get(1).addReview(4, "No comment because I said so ");
@@ -43,6 +43,17 @@ public class Database {
 
     public void getFilms(Context ctx) {
         ctx.json(films);
+    }
+
+    public void getFilmsTable(Context ctx) {
+        int size = films.size();
+        Film[] tabFilm = new Film[size];
+        int i = 0;
+        for(Film film : films.values()) {
+            tabFilm[i] = film;
+            ++i;
+        }
+        ctx.json(tabFilm);
     }
 
     private Integer getIdFilm(Context ctx) {
@@ -87,8 +98,12 @@ public class Database {
 
         finalFilm.setDescription(film.getDescription());
         finalFilm.setGenres(film.getGenres());
+        /* Je sais pas si on veut garder les reviews ou pas à l'update d'un film
         finalFilm.setMeanReviews(3);
         finalFilm.setNbReviews(0);
+
+        reviews.get(id).getReviews().clear();
+        */
 
         ctx.json(finalFilm);
     }
@@ -98,6 +113,7 @@ public class Database {
 
         Film finalFilm = new Film();
 
+        finalFilm.setId(nextIndex);
         finalFilm.setTitle(film.getTitle());
         finalFilm.setDescription(film.getDescription());
         finalFilm.setGenres(film.getGenres());
@@ -130,6 +146,18 @@ public class Database {
         Integer id = getIdFilm(ctx);
 
         ctx.json(reviews.get(id).getReviews());
+    }
+
+    public void getReviewsTable(Context ctx) {
+        Integer id = getIdFilm(ctx);
+        int size = reviews.get(id).getReviews().size();
+        Review[] tabReview = new Review[size];
+        int i = 0;
+        for(Review review : reviews.get(id).getReviews().values()) {
+            tabReview[i] = review;
+            ++i;
+        }
+        ctx.json(tabReview);
     }
 
     private Integer getIdReview(Context ctx, int idFilm) {

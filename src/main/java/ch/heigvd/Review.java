@@ -1,6 +1,7 @@
 package ch.heigvd;
 
 public class Review {
+    private int id;
     private Integer rating;
     private String comment;
 
@@ -8,7 +9,8 @@ public class Review {
 
     }
 
-    public Review(Integer rating, String comment) {
+    public Review(int id, Integer rating, String comment) {
+        this.id = id;
         this.rating = rating;
         this.comment = comment;
     }
@@ -29,7 +31,11 @@ public class Review {
         this.comment = comment;
     }
 
-    static public Review create(Integer rating, String comment) {
-        return new Review(rating, comment == null || comment.isEmpty() ? null : comment);
+    static public Review create(int id, Integer rating, String comment) {
+        return new Review(id, rating, comment == null || comment.isEmpty() ? null : comment);
+    }
+
+    public int getId() {
+        return id;
     }
 }

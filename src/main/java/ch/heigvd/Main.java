@@ -14,8 +14,8 @@ public class Main {
         // Movies routes
         app.post("/dashboard/", database::addFilm);
         app.post("/dashboard", database::addFilm);
-        app.get("/dashboard/", database::getFilms);
-        app.get("/dashboard", database::getFilms);
+        app.get("/dashboard/", database::getFilmsTable);
+        app.get("/dashboard", database::getFilmsTable);
 
         // Movie routes
         app.get("/dashboard/{filmId}", database::getFilm);
@@ -28,8 +28,8 @@ public class Main {
         // Reviews routes
         app.post("/dashboard/{filmId}/reviews", database::addReview);
         app.post("/dashboard/{filmId}/reviews/", database::addReview);
-        app.get("/dashboard/{filmId}/reviews", database::getReviews);
-        app.get("/dashboard/{filmId}/reviews/", database::getReviews);
+        app.get("/dashboard/{filmId}/reviews", database::getReviewsTable);
+        app.get("/dashboard/{filmId}/reviews/", database::getReviewsTable);
 
         // Review routes
         app.get("/dashboard/{filmId}/reviews/{reviewId}", database::getReview);

@@ -18,7 +18,8 @@ public class ReviewsStorage {
 
     public void addReview(int rating, String comment) {
         if(rating >= min && rating <= max) {
-            reviews.put(getNextId(), new Review(rating, comment ));
+            int id = getNextId();
+            reviews.put(id, new Review(id, rating, comment ));
         }
     }
 
