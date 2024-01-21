@@ -10,13 +10,28 @@
 7. [Interacting with the Application via CURL](#interacting-with-the-application-via-curl)
 
 ## Introduction
-    Description of the web application
-    Purpose and main features
-    Documented API
+
+### Description of the web application
+Welcome to our film review application. We developed this project as part of the Internet Application Development course at HEIG-VD. The goal of this project was to create a web application that utilizes the HTTP protocol. The web application is defined by an application protocol interface (API) and will be deployed on a virtual machine, accessible over the internet via a domain name. Interaction with the application can be done through a web browser and/or a command line tool such as curl.
+
+### Purpose and main features
+The purpose of our application is to provide a platform for sharing personal opinions about movies.
+
+Features of Our Application:
+- Read Existing Movie Reviews: Browse through a collection of reviews for various films.
+- Write Your Own Review: Share your thoughts and critique on any movie.
+- Rate a Movie: Provide a rating for the films you've watched.
+
+### Documented API
+todo
 
 ## Team Composition and Roles
-    Introduction of team members
-    Roles and responsibilities assigned to each member
+Our group is composed of Thomas Vuilleumier, Sebastian Diaz, Arthur Menétrey and Lionel Pollien. Here are the roles and responsibilities that we have assigned ourselves :
+
+- Thomas Vuilleumier :
+- Sebastian Diaz : 
+- Arthur Menétrey :
+- Lionel Pollien :
 
 ## Server Installation and Configuration
     Necessary prerequisites
@@ -41,3 +56,6 @@
     Examples of interactions with the API
     CURL commands and their expected responses
     Common use case scenarios
+
+## Conclusion
+(eventually)
