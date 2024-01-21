@@ -48,9 +48,25 @@ Our group is composed of Thomas Vuilleumier, Sebastian Diaz, Arthur Menétrey an
     Instructions for linking the domain to the application
 
 ## Building and Publishing with Docker
-    Using Docker to build the application
-    Publishing the application with Docker
-    Instructions for Docker images and containers
+### Using Docker to build the application
+### Publishing the application with Docker
+Nous avons publié notre application sur Github Container Registry. <URL>
+
+Pour ce faire, nous avons renommer notre image selon le format suivant: 
+```
+ghcr.io/<username>/<image>:<tag>. 
+```
+
+Ensuite, nous avons publié notre image à l'aide de la commande suivante:
+```
+docker push ghcr.io/<username>/<image>:<tag> 
+```
+
+Vous pouvez récupérer notre image sur Github via la commande :
+```
+docker pull ghcr.io/<username>/<image>:<tag>
+```
+### Instructions for Docker images and containers
 
 ## Interacting with the Application via CURL
     Examples of interactions with the API
