@@ -1,26 +1,27 @@
+version: '3.8'
+
+secrets:
+  auth_users:
+    file: ./secrets/auth-users.txt
+
+services:
+  reelremarks:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:8080:8080"
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.reelremarks.rule=Host(`127.0.0.1`)"  # Replace with your actual domain
+      - "traefik.http.routers.reelremarks.entrypoints=web"
+      - "traefik.http.routers.reelremarks.middlewares=auth"
+      - "traefik.http.middlewares.auth.basicauth.usersfile=/secrets/auth-users.txt"
+    expose:
+      - "8080"
+
 networks:
   traefik:
     external: true
-
-services:
-  whoami:
-    image: traefik/whoami:${WHOAMI_IMAGE_VERSION:-latest}
-    networks:
-      - traefik
-    expose:
-      - 80
-    labels:
-      ## Traefik
-      - traefik.enable=true
-      - traefik.docker.network=traefik
-      ## HTTP
-      - traefik.http.routers.whoami-http.entrypoints=http
-      - traefik.http.routers.whoami-http.rule=Host(`${WHOAMI_FULLY_QUALIFIED_DOMAIN_NAME}`)
-      # We add a middleware to redirect HTTP to HTTPS
-      - traefik.http.routers.whoami-http.middlewares=redirect-to-https
-      ## HTTPS
-      # We add the HTTPS configuration
-      - traefik.http.routers.whoami-https.entrypoints=https
-      - traefik.http.routers.whoami-https.rule=Host(`${WHOAMI_FULLY_QUALIFIED_DOMAIN_NAME}`)
-      - traefik.http.routers.whoami-https.tls=true
-      - traefik.http.routers.whoami-https.tls.certresolver=letsencrypt
