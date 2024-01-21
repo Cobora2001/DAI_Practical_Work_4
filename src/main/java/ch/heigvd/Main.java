@@ -1,7 +1,16 @@
+// Authors:
+// Thomas Vuilleumier (@Cobora2001)
+// Sebastian Diaz (@MolinaElGringo)
+//Arthur Menétrey (@Xenogix)
+//Lionel Pollien (@poLionel)
+
 package ch.heigvd;
 
 import io.javalin.Javalin;
 
+/**
+ * Main class of the application
+ */
 public class Main {
     public final static int PORT = 8080;
 
