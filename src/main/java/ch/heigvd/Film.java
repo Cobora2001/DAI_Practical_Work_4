@@ -3,6 +3,7 @@ package ch.heigvd;
 import java.util.LinkedList;
 
 public class Film {
+    static private final int meanReviewsDefault = 3;
     private int id;
     private String title;
     private String description;
@@ -30,8 +31,16 @@ public class Film {
         this.nbReviews = nbReviews;
     }
 
+    public void setNbReviews() {
+        this.nbReviews = 0;
+    }
+
     public void setMeanReviews(double meanReviews) {
         this.meanReviews = meanReviews;
+    }
+
+    public void setMeanReviews() {
+        this.meanReviews = meanReviewsDefault;
     }
 
     public Film(int id, String title, String description, LinkedList<Genre> genres) {
@@ -39,8 +48,8 @@ public class Film {
         this.title = title;
         this.description = description;
         this.genres = genres;
-        this.nbReviews = 0;
-        this.meanReviews = 3;
+        setMeanReviews();
+        setNbReviews();
     }
 
     public void addReview(double newMeanReviews) {
