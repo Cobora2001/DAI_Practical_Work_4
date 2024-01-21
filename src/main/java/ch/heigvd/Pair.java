@@ -1,3 +1,6 @@
+// Author:
+// Thomas Vuilleumier (@Cobora2001)
+
 package ch.heigvd;
 
 public class Pair<A, B> {
