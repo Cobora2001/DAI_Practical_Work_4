@@ -164,7 +164,7 @@ curl.exe -i -X POST -d '{"title":"La Planete Des Singes","description":"Revolte 
 curl.exe -i -X GET http://127.0.0.1:8080/dashboard/4
 ```
 
-Expected output (In our case, we had added 2 movies before doing this test):
+Expected output (In our case, we had added 2 movies before doing this test, so our output represents that):
 
 ```txt
 
