@@ -24,4 +24,4 @@ RUN ./mvnw install -DskipTests
 EXPOSE 8080
 
 # Define the command to run your application
-CMD ["java", "-jar", "target/your-app.jar"]
+CMD ["java", "-jar", "target/ReelRemarks.jar"]
