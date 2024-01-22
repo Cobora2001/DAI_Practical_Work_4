@@ -12,7 +12,7 @@
 ## Introduction
 
 ### Description of the web application
-Welcome to our film review application. We developed this project as part of the Internet Application Development course at HEIG-VD. The goal of this project was to create a web application that utilizes the HTTP protocol. The web application is defined by an application protocol interface (API) and will be deployed on a virtual machine, accessible over the internet via a domain name. Interaction with the application can be done through a web browser and/or a command line tool such as curl.
+Welcome to our film review application. We developed this project as part of the Internet Application Development course at HEIG-VD. The goal of this project was to create a web application that utilizes the HTTP protocol. The web application is defined by an application protocol interface (API) and will be deployed on a virtual machine, accessible over the internet via a domain name. Interaction with the application can be done through a web browser and/or a command line tool, using commands such as curl.
 
 ### Purpose and main features
 The purpose of our application is to provide a platform for sharing personal opinions about movies.
@@ -23,15 +23,28 @@ Features of Our Application:
 - Rate a Movie: Provide a rating for the films you've watched.
 
 ### Documented API
-todo
+
+#### GET /movies
+
+Returns a list of all movies in the database.
+```shell
+curl.exe -i -X GET http://127.0.0.1:8080/dashboard/
+```
+
+#### GET /movies/{id}
+
+Returns a specific movie from the database.
+```shell
+curl.exe -i -X GET http://127.0.0.1:8080/dashboard/movies/{id}
+```
 
 ## Team Composition and Roles
 Our group is composed of Thomas Vuilleumier, Sebastian Diaz, Arthur Menétrey and Lionel Pollien. Here are the roles and responsibilities that we have assigned ourselves :
 
-- Thomas Vuilleumier :
-- Sebastian Diaz : 
-- Arthur Menétrey :
-- Lionel Pollien :
+- Thomas Vuilleumier : Created the program with the requests.
+- Sebastian Diaz : Served as the project supervisor, managing the communication with the HEIG-VD staff, and did the testing.
+- Arthur Menétrey : Created the Dockerfile and the docker-compose.yml file, and installed the application on the server.
+- Lionel Pollien : Created the documentation and helped the other members of the group.
 
 ## Server Installation and Configuration
     Necessary prerequisites
@@ -50,19 +63,20 @@ Our group is composed of Thomas Vuilleumier, Sebastian Diaz, Arthur Menétrey an
 ## Building and Publishing with Docker
 ### Using Docker to build the application
 ### Publishing the application with Docker
-Nous avons publié notre application sur Github Container Registry. <URL>
 
-Pour ce faire, nous avons renommer notre image selon le format suivant: 
+We published our application on Github Container Registry. <URL>
+
+To do so, we renamed our image according to the following format:
 ```
 ghcr.io/<username>/<image>:<tag>. 
 ```
 
-Ensuite, nous avons publié notre image à l'aide de la commande suivante:
+Then, we published our image using the following command:
 ```
 docker push ghcr.io/<username>/<image>:<tag> 
 ```
 
-Vous pouvez récupérer notre image sur Github via la commande :
+You can retrieve our image on Github using the command:
 ```
 docker pull ghcr.io/<username>/<image>:<tag>
 ```
