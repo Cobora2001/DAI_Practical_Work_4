@@ -114,6 +114,62 @@ Deletes a specific review for a specific movie.
 curl.exe -i -X DELETE http://127.0.0.1:8080/dashboard/{filmId}/reviews/{reviewId}
 ```
 
+### Example
+
+```shell
+# Tests:
+
+# The ID is different depending on the database
+
+# Get all film
+curl.exe -i -X GET http://127.0.0.1:8080/dashboard/
+
+# Add a new film
+curl.exe -i -X POST -d '{"title":"LaPlaneteDesSinge","description":"Revolte%20des%20Singes","genres":["Action"]}' http://127.0.0.1:8080/dashboard/
+
+# Get a film
+curl.exe -i -X GET http://127.0.0.1:8080/dashboard/3
+
+# Correct a film
+curl.exe -i -X PUT -d '{"title":"La Planete Des Singe","description":"Revolte des Singes","genres":["Action"]}' http://127.0.0.1:8080/dashboard/3
+
+# Get a film
+curl.exe -i -X GET http://127.0.0.1:8080/dashboard/3
+
+# Add a review to the film
+curl.exe -i -X POST -d '{"rating":1,"comment":"Not Enough Monkeys"}' http://127.0.0.1:8080/dashboard/3/reviews/
+
+# Get the reviews of the film
+curl.exe -i -X GET http://127.0.0.1:8080/dashboard/3/reviews
+
+# Update the review
+curl.exe -i -X PUT -d '{"rating":5,"comment":"Veni Vidi Vici"}' http://127.0.0.1:8080/dashboard/3/reviews/1
+
+# Get the review of the film
+curl.exe -i -X GET http://127.0.0.1:8080/dashboard/3/reviews/1
+
+# Delete the review
+curl.exe -i -X DELETE http://127.0.0.1:8080/dashboard/3/reviews/1
+
+# Delete the film "La Planète des Singes"
+curl.exe -i -X DELETE http://127.0.0.1:8080/dashboard/3
+
+# Get the film
+curl.exe -i -X GET http://127.0.0.1:8080/dashboard/3
+
+# Add the film "La Planète des Singes" again
+curl.exe -i -X POST -d '{"title":"La Planete Des Singes","description":"Revolte des Singes","genres":["Action"]}' http://127.0.0.1:8080/dashboard/
+
+# Get it one last time
+curl.exe -i -X GET http://127.0.0.1:8080/dashboard/4
+```
+
+Expected output (In our case, we had added 2 movies before doing this test):
+
+```txt
+
+```
+
 ## Team Composition and Roles
 Our group is composed of Thomas Vuilleumier, Sebastian Diaz, Arthur Menétrey and Lionel Pollien. Here are the roles and responsibilities that we have assigned ourselves :
 
@@ -140,7 +196,7 @@ Our group is composed of Thomas Vuilleumier, Sebastian Diaz, Arthur Menétrey an
 ### Using Docker to build the application
 ### Publishing the application with Docker
 
-We published our application on Github Container Registry. <URL>
+We published our application on GitHub Container Registry. <URL>
 
 To do so, we renamed our image according to the following format:
 ```
@@ -152,7 +208,7 @@ Then, we published our image using the following command:
 docker push ghcr.io/<username>/<image>:<tag> 
 ```
 
-You can retrieve our image on Github using the command:
+You can retrieve our image on GitHub using the command:
 ```
 docker pull ghcr.io/<username>/<image>:<tag>
 ```
