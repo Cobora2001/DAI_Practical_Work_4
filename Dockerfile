@@ -11,6 +11,9 @@ COPY .mvn .mvn
 COPY src src
 COPY pom.xml .
 
+# Grant execution permissions to the Maven wrapper script
+RUN chmod +x mvnw
+
 # Copy the project source code
 COPY src src
 
