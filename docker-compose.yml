@@ -4,45 +4,30 @@ secrets:
   auth_users:
     file: ./secrets/auth-users.txt
 
-networks:
-  traefik:
-    name: traefik
-
 services:
   api:
     build: .
-    expose:
-      - "8080"
     labels:
       - traefik.enable=true
-      - traefik.docker.network=traefik
-      - traefik.http.routers.api.entrypoints=https
       - traefik.http.routers.api.rule=Host(`${API_DOMAIN_NAME}`)
-
+      - traefik.http.services.api.loadbalancer.server.port=8080
+      - traefik.http.routers.api.entrypoints=websecure
+      - traefik.http.routers.api.tls.certresolver=letsencrypt
   traefik:
     image: traefik:${TRAEFIK_IMAGE_VERSION:-latest}
     command:
       ## Global
-      # Uncomment next line when testing
-      # - --log.level=DEBUG
-      # No more need to add --api.insecure=true as we access Traefik only using its domain name
       - --api.dashboard=true
       ## Docker
       - --providers.docker=true
       - --providers.docker.exposedbydefault=false
       ## Entrypoints
-      - --entrypoints.http.address=:80
-      - --entrypoints.https.address=:443
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
       ## Certificates
-      # We add Let's Encrypt as a default certificate resolver
-      # Uncomment next line when testing
-      # - --certificatesResolvers.letsencrypt.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory
       - --certificatesresolvers.letsencrypt.acme.tlschallenge=true
       - --certificatesresolvers.letsencrypt.acme.email=${TRAEFIK_ACME_EMAIL}
       - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
-    restart: unless-stopped
-    networks:
-      - traefik
     ports:
       - "80:80"
       - "443:443"
@@ -57,18 +42,9 @@ services:
       - traefik.enable=true
       - traefik.docker.network=traefik
       ## Middlewares
-      # We add a Basic Auth middleware using the users defined in the Docker secret
       - traefik.http.middlewares.basic-auth.basicauth.usersFile=/run/secrets/auth_users
-      # We add a middleware to redirect HTTP to HTTPS
-      - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
-      - traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true
-      ## HTTP
-      - traefik.http.routers.traefik-http.entrypoints=http
-      - traefik.http.routers.traefik-http.rule=Host(`${TRAEFIK_DOMAIN_NAME}`)
-      - traefik.http.routers.traefik-http.service=api@internal
-      - traefik.http.routers.traefik-http.middlewares=redirect-to-https
       ## HTTPS
-      - traefik.http.routers.traefik-https.entrypoints=https
+      - traefik.http.routers.traefik-https.entrypoints=websecure
       - traefik.http.routers.traefik-https.rule=Host(`${TRAEFIK_DOMAIN_NAME}`)
       - traefik.http.routers.traefik-https.service=api@internal
       - traefik.http.routers.traefik-https.middlewares=basic-auth
