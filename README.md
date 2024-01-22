@@ -24,18 +24,94 @@ Features of Our Application:
 
 ### Documented API
 
-#### GET /movies
+The API was tested using an Ubuntu terminal and the curl command line tool. The following commands can be used to interact with the API that way:
+
+#### GET /dashboard
 
 Returns a list of all movies in the database.
+
 ```shell
 curl.exe -i -X GET http://127.0.0.1:8080/dashboard/
 ```
 
-#### GET /movies/{id}
+Please do note that you can put a slash at the end of the URL, but it is not necessary. That will be the case for all the following commands as well.
+
+#### GET /dashboard/{filmId}
 
 Returns a specific movie from the database.
+
 ```shell
-curl.exe -i -X GET http://127.0.0.1:8080/dashboard/movies/{id}
+curl.exe -i -X GET http://127.0.0.1:8080/dashboard/movies/{filmId}
+```
+
+#### GET /dashboard/{filmId}/reviews
+
+Returns a list of all reviews for a specific movie.
+
+```shell
+curl.exe -i -X GET http://127.0.0.1:8080/dashboard/movies/{filmId}/reviews/
+```
+
+#### GET /dashboard/{filmId}/reviews/{reviewId}
+
+Returns a specific review for a specific movie.
+
+```shell
+curl.exe -i -X GET http://127.0.0.1:8080/dashboard/{filmId}/reviews/{reviewId}
+```
+
+#### POST /dashboard
+
+Adds a new movie to the database.
+
+```shell
+curl.exe -i -X POST -d '{"title":"SomeTitleIWant","description":"The description for my film","genres":["FirstGenre","SecondGenre"]}' http://127.0.0.1:8080/dashboard/
+```
+
+Do note that the genres field can be left with no content (like this: "genres":[]). But in that case, you may want to add some genres later on or just use the genre "Other".
+
+Genres are not strings, they are an object from an enum. The possible genres are: Action, Adventure, Comedy, Crime, Drama, Fantasy, Historical, Horror, Mystery, Philosophical, Political, Romance, Saga, Satire, ScienceFiction, Thriller, Urban, Western, Other.
+
+#### POST /dashboard/{filmId}/reviews
+
+Adds a new review for a specific movie.
+
+```shell
+curl.exe -i -X POST -d '{"rating":number,"comment":"My comment goes here"}' http://127.0.0.1:8080/dashboard/{filmId}/reviews/
+```
+
+Number is an integer between 1 and 5.
+
+#### PUT /dashboard/{filmId}
+
+Updates a specific movie in the database.
+
+```shell
+curl.exe -i -X PUT -d '{"title":"My new Title","description":"My new description","genres":["MyNewGenre"]}' http://127.0.0.1:8080/dashboard/{filmId}
+```
+
+#### PUT /dashboard/{filmId}/reviews/{reviewId}
+
+Updates a specific review for a specific movie.
+
+```shell
+curl.exe -i -X PUT -d '{"rating":newRating,"comment":"My new comment"}' http://127.0.0.1:8080/dashboard/{filmId}/reviews/{reviewId}
+```
+
+#### DELETE /dashboard/{filmId}
+
+Deletes a specific movie from the database.
+
+```shell
+curl.exe -i -X DELETE http://127.0.0.1:8080/dashboard/{filmId}
+```
+
+#### DELETE /dashboard/{filmId}/reviews/{reviewId}
+
+Deletes a specific review for a specific movie.
+
+```shell
+curl.exe -i -X DELETE http://127.0.0.1:8080/dashboard/{filmId}/reviews/{reviewId}
 ```
 
 ## Team Composition and Roles
