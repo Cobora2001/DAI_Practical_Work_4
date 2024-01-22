@@ -1,5 +1,24 @@
-FROM eclipse-temurin:17
-WORKDIR /app
-COPY target/ReelRemarks.jar /app/ReelRemarks.jar
+# Use an official Temurin (AdoptOpenJDK) runtime as a parent image
+FROM eclipse-temurin:17-jdk
+
+# Set the working directory in the container
+WORKDIR /usr/src/app
+
+# Copy the Maven wrapper files (pom.xml and the wrapper scripts)
+COPY mvnw .
+COPY mvnw.cmd .
+COPY .mvn .mvn
+COPY src src
+COPY pom.xml .
+
+# Copy the project source code
+COPY src src
+
+# Build the application
+RUN ./mvnw install -DskipTests
+
+# Expose the port your application runs on
 EXPOSE 8080
-CMD ["java", "-jar", "ReelRemarks.jar"]
+
+# Define the command to run your application
+CMD ["java", "-jar", "target/your-app.jar"]
