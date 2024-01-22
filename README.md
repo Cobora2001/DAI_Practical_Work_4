@@ -133,9 +133,6 @@ curl.exe -i -X GET http://127.0.0.1:8080/dashboard/3
 # Correct a film
 curl.exe -i -X PUT -d '{"title":"La Planete Des Singe","description":"Revolte des Singes","genres":["Action"]}' http://127.0.0.1:8080/dashboard/3
 
-# Get a film
-curl.exe -i -X GET http://127.0.0.1:8080/dashboard/3
-
 # Add a review to the film
 curl.exe -i -X POST -d '{"rating":1,"comment":"Not Enough Monkeys"}' http://127.0.0.1:8080/dashboard/3/reviews/
 
@@ -144,9 +141,6 @@ curl.exe -i -X GET http://127.0.0.1:8080/dashboard/3/reviews
 
 # Update the review
 curl.exe -i -X PUT -d '{"rating":5,"comment":"Veni Vidi Vici"}' http://127.0.0.1:8080/dashboard/3/reviews/1
-
-# Get the review of the film
-curl.exe -i -X GET http://127.0.0.1:8080/dashboard/3/reviews/1
 
 # Delete the review
 curl.exe -i -X DELETE http://127.0.0.1:8080/dashboard/3/reviews/1
@@ -167,7 +161,105 @@ curl.exe -i -X GET http://127.0.0.1:8080/dashboard/4
 Expected output (In our case, we had added 2 movies before doing this test, so our output represents that):
 
 ```txt
+200 OK
+Date: Mon, 22 Jan 2024 20:49:45 GMT
+Content-Type: application/json
+Content-Length: 298
 
+[{"id":1,"title":"L'Arch de Noe","description":"Un film sur un element majeur de la religion","genres":["Animation"],"nbReviews":3,"meanReviews":3.3333333333333335},{"id":2,"title":"San Gohan","description":"Un film de dragon ball","genres":["Animation","Fantasy"],"nbReviews":0,"meanReviews":3.0}]
+
+---------------------------------------
+
+201 Created
+Date: Mon, 22 Jan 2024 20:50:56 GMT
+Content-Type: application/json
+Content-Length: 127
+
+{"id":3,"title":"LaPlaneteDesSinge","description":"Revolte%20des%20Singes","genres":["Action"],"nbReviews":0,"meanReviews":3.0}
+
+---------------------------------------
+
+200 OK
+Date: Mon, 22 Jan 2024 20:51:24 GMT
+Content-Type: application/json
+Content-Length: 127
+
+{"id":3,"title":"LaPlaneteDesSinge","description":"Revolte%20des%20Singes","genres":["Action"],"nbReviews":0,"meanReviews":3.0}
+
+---------------------------------------
+
+200 OK
+Date: Mon, 22 Jan 2024 20:51:48 GMT
+Content-Type: application/json
+Content-Length: 126
+
+{"id":3,"title":"La Planete Des Singe","description":"Revolte des Singes","genres":["Action"],"nbReviews":0,"meanReviews":3.0}
+
+---------------------------------------
+
+201 Created
+Date: Mon, 22 Jan 2024 20:53:28 GMT
+Content-Type: application/json
+Content-Length: 48
+
+{"id":0,"rating":1,"comment":"NotEnoughtMonkey"}
+
+---------------------------------------
+
+200 OK
+Date: Mon, 22 Jan 2024 20:53:52 GMT
+Content-Type: application/json
+Content-Length: 50
+
+[{"id":0,"rating":1,"comment":"NotEnoughtMonkey"}]
+
+---------------------------------------
+
+200 OK
+Date: Mon, 22 Jan 2024 20:54:36 GMT
+Content-Type: application/json
+Content-Length: 46
+
+{"id":0,"rating":5,"comment":"Veni Vidi Vici"}
+
+---------------------------------------
+
+204 No Content
+Date: Mon, 22 Jan 2024 20:55:27 GMT
+Content-Type: text/plain
+
+---------------------------------------
+
+204 No Content
+Date: Mon, 22 Jan 2024 20:56:04 GMT
+Content-Type: text/plain
+
+---------------------------------------
+
+404 Not Found
+Date: Mon, 22 Jan 2024 20:56:29 GMT
+Content-Type: text/plain
+Content-Length: 9
+
+Not Found
+
+---------------------------------------
+
+201 Created
+Date: Mon, 22 Jan 2024 20:57:00 GMT
+Content-Type: application/json
+Content-Length: 127
+
+{"id":4,"title":"La Planete Des Singes","description":"Revolte des Singes","genres":["Action"],"nbReviews":0,"meanReviews":3.0}
+
+---------------------------------------
+
+200 OK
+Date: Mon, 22 Jan 2024 20:57:22 GMT
+Content-Type: application/json
+Content-Length: 127
+
+{"id":4,"title":"La Planete Des Singes","description":"Revolte des Singes","genres":["Action"],"nbReviews":0,"meanReviews":3.0}
 ```
 
 ## Team Composition and Roles
