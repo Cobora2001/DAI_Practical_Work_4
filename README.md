@@ -345,30 +345,13 @@ For the app to work properly you may need to change these environments variables
 
 - TRAEFIK_IMAGE_VERSION => The image version of traefik (you can keep it to "latest" by default)
 
-
-## Building and Publishing with Docker
-
-### Using Docker to build the application
-On a un dockerfile pour build l'image
-
-docker build nomimage
-
-
 ### Publishing the application with Docker
 
-We published our application on GitHub Container Registry. <URL>
+In order to build and publish our image we used the following commands taking care of replacing the placeholder :
 
-To do so, we renamed our image according to the following format:
 ```
-ghcr.io/<username>/<image>:<tag>. 
-```
-
-Then, we published our image using the following command:
-```
-docker push ghcr.io/<username>/<image>:<tag> 
-```
-
-You can retrieve our image on GitHub using the command:
-```
-docker pull ghcr.io/<username>/<image>:<tag>
+# First we tag our image
+docker tag [OPTIONS] IMAGE[:TAG] [REGISTRYHOST/][USERNAME/]NAME[:TAG]
+# Then push the image
+docker push NAME[:TAG]
 ```
