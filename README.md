@@ -31,7 +31,7 @@ The API was tested using an Ubuntu terminal and the curl command line tool. The 
 Returns a list of all movies in the database.
 
 ```shell
-curl.exe -i -X GET http://127.0.0.1:8080/dashboard/
+curl -i -X GET https://dai.timou.ch/dashboard/
 ```
 
 Please do note that you can put a slash at the end of the URL, but it is not necessary. That will be the case for all the following commands as well.
@@ -41,7 +41,7 @@ Please do note that you can put a slash at the end of the URL, but it is not nec
 Returns a specific movie from the database.
 
 ```shell
-curl.exe -i -X GET http://127.0.0.1:8080/dashboard/movies/{filmId}
+curl -i -X GET https://dai.timou.ch/dashboard/movies/{filmId}
 ```
 
 #### GET /dashboard/{filmId}/reviews
@@ -49,7 +49,7 @@ curl.exe -i -X GET http://127.0.0.1:8080/dashboard/movies/{filmId}
 Returns a list of all reviews for a specific movie.
 
 ```shell
-curl.exe -i -X GET http://127.0.0.1:8080/dashboard/movies/{filmId}/reviews/
+curl -i -X GET https://dai.timou.ch/dashboard/movies/{filmId}/reviews/
 ```
 
 #### GET /dashboard/{filmId}/reviews/{reviewId}
@@ -57,7 +57,7 @@ curl.exe -i -X GET http://127.0.0.1:8080/dashboard/movies/{filmId}/reviews/
 Returns a specific review for a specific movie.
 
 ```shell
-curl.exe -i -X GET http://127.0.0.1:8080/dashboard/{filmId}/reviews/{reviewId}
+curl -i -X GET https://dai.timou.ch/dashboard/{filmId}/reviews/{reviewId}
 ```
 
 #### POST /dashboard
@@ -65,7 +65,7 @@ curl.exe -i -X GET http://127.0.0.1:8080/dashboard/{filmId}/reviews/{reviewId}
 Adds a new movie to the database.
 
 ```shell
-curl.exe -i -X POST -d '{"title":"SomeTitleIWant","description":"The description for my film","genres":["FirstGenre","SecondGenre"]}' http://127.0.0.1:8080/dashboard/
+curl -i -X POST -d '{"title":"SomeTitleIWant","description":"The description for my film","genres":["FirstGenre","SecondGenre"]}' https://dai.timou.ch/dashboard/
 ```
 
 Do note that the genres field can be left with no content (like this: "genres":[]). But in that case, you may want to add some genres later on or just use the genre "Other".
@@ -77,7 +77,7 @@ Genres are not strings, they are an object from an enum. The possible genres are
 Adds a new review for a specific movie.
 
 ```shell
-curl.exe -i -X POST -d '{"rating":number,"comment":"My comment goes here"}' http://127.0.0.1:8080/dashboard/{filmId}/reviews/
+curl -i -X POST -d '{"rating":number,"comment":"My comment goes here"}' https://dai.timou.ch/dashboard/{filmId}/reviews/
 ```
 
 Number is an integer between 1 and 5.
@@ -87,7 +87,7 @@ Number is an integer between 1 and 5.
 Updates a specific movie in the database.
 
 ```shell
-curl.exe -i -X PUT -d '{"title":"My new Title","description":"My new description","genres":["MyNewGenre"]}' http://127.0.0.1:8080/dashboard/{filmId}
+curl -i -X PUT -d '{"title":"My new Title","description":"My new description","genres":["MyNewGenre"]}' https://dai.timou.ch/dashboard/{filmId}
 ```
 
 #### PUT /dashboard/{filmId}/reviews/{reviewId}
@@ -95,7 +95,7 @@ curl.exe -i -X PUT -d '{"title":"My new Title","description":"My new description
 Updates a specific review for a specific movie.
 
 ```shell
-curl.exe -i -X PUT -d '{"rating":newRating,"comment":"My new comment"}' http://127.0.0.1:8080/dashboard/{filmId}/reviews/{reviewId}
+curl -i -X PUT -d '{"rating":newRating,"comment":"My new comment"}' https://dai.timou.ch/dashboard/{filmId}/reviews/{reviewId}
 ```
 
 #### DELETE /dashboard/{filmId}
@@ -103,7 +103,7 @@ curl.exe -i -X PUT -d '{"rating":newRating,"comment":"My new comment"}' http://1
 Deletes a specific movie from the database.
 
 ```shell
-curl.exe -i -X DELETE http://127.0.0.1:8080/dashboard/{filmId}
+curl -i -X DELETE https://dai.timou.ch/dashboard/{filmId}
 ```
 
 #### DELETE /dashboard/{filmId}/reviews/{reviewId}
@@ -111,7 +111,7 @@ curl.exe -i -X DELETE http://127.0.0.1:8080/dashboard/{filmId}
 Deletes a specific review for a specific movie.
 
 ```shell
-curl.exe -i -X DELETE http://127.0.0.1:8080/dashboard/{filmId}/reviews/{reviewId}
+curl -i -X DELETE https://dai.timou.ch/dashboard/{filmId}/reviews/{reviewId}
 ```
 
 ### Example
@@ -122,40 +122,40 @@ curl.exe -i -X DELETE http://127.0.0.1:8080/dashboard/{filmId}/reviews/{reviewId
 # The ID is different depending on the database
 
 # Get all film
-curl.exe -i -X GET http://127.0.0.1:8080/dashboard/
+curl -i -X GET https://dai.timou.ch/dashboard/
 
 # Add a new film
-curl.exe -i -X POST -d '{"title":"LaPlaneteDesSinge","description":"Revolte%20des%20Singes","genres":["Action"]}' http://127.0.0.1:8080/dashboard/
+curl -i -X POST -d '{"title":"LaPlaneteDesSinge","description":"Revolte%20des%20Singes","genres":["Action"]}' https://dai.timou.ch/dashboard/
 
 # Get a film
-curl.exe -i -X GET http://127.0.0.1:8080/dashboard/3
+curl -i -X GET https://dai.timou.ch/dashboard/3
 
 # Correct a film
-curl.exe -i -X PUT -d '{"title":"La Planete Des Singe","description":"Revolte des Singes","genres":["Action"]}' http://127.0.0.1:8080/dashboard/3
+curl -i -X PUT -d '{"title":"La Planete Des Singe","description":"Revolte des Singes","genres":["Action"]}' https://dai.timou.ch/dashboard/3
 
 # Add a review to the film
-curl.exe -i -X POST -d '{"rating":1,"comment":"Not Enough Monkeys"}' http://127.0.0.1:8080/dashboard/3/reviews/
+curl -i -X POST -d '{"rating":1,"comment":"Not Enough Monkeys"}' https://dai.timou.ch/dashboard/3/reviews/
 
 # Get the reviews of the film
-curl.exe -i -X GET http://127.0.0.1:8080/dashboard/3/reviews
+curl -i -X GET https://dai.timou.ch/dashboard/3/reviews
 
 # Update the review
-curl.exe -i -X PUT -d '{"rating":5,"comment":"Veni Vidi Vici"}' http://127.0.0.1:8080/dashboard/3/reviews/1
+curl -i -X PUT -d '{"rating":5,"comment":"Veni Vidi Vici"}' https://dai.timou.ch/dashboard/3/reviews/1
 
 # Delete the review
-curl.exe -i -X DELETE http://127.0.0.1:8080/dashboard/3/reviews/1
+curl -i -X DELETE https://dai.timou.ch/dashboard/3/reviews/1
 
 # Delete the film "La Planète des Singes"
-curl.exe -i -X DELETE http://127.0.0.1:8080/dashboard/3
+curl -i -X DELETE https://dai.timou.ch/dashboard/3
 
 # Get the film
-curl.exe -i -X GET http://127.0.0.1:8080/dashboard/3
+curl -i -X GET https://dai.timou.ch/dashboard/3
 
 # Add the film "La Planète des Singes" again
-curl.exe -i -X POST -d '{"title":"La Planete Des Singes","description":"Revolte des Singes","genres":["Action"]}' http://127.0.0.1:8080/dashboard/
+curl -i -X POST -d '{"title":"La Planete Des Singes","description":"Revolte des Singes","genres":["Action"]}' https://dai.timou.ch/dashboard/
 
 # Get it one last time
-curl.exe -i -X GET http://127.0.0.1:8080/dashboard/4
+curl -i -X GET https://dai.timou.ch/dashboard/4
 ```
 
 Expected output (In our case, we had added 2 movies before doing this test, so our output represents that):
@@ -271,13 +271,12 @@ Our group is composed of Thomas Vuilleumier, Sebastian Diaz, Arthur Menétrey an
 - Lionel Pollien : Created the documentation and helped the other members of the group.
 
 ## Server Installation and Configuration
-Modifier les variables d'environnement dans le fichier .env.
 
-    Necessary prerequisites
-    Detailed installation steps
-    Server configuration and environment setup
+If you want to use you app outside a local network you will need to deploy a server that can be accessible from the internet.
+The server 80 and 443 ports should be opened in order for the http and https to be received.
 
-## Deployment and Usage
+When your server is ready, you can clone this repository and run it using docker compose or use our docker image.
+These topics will be depicted in the next chapters.
     
 ### Guide for deploying the application
 
@@ -287,9 +286,28 @@ To deploy our image, we first need to connect to our server (which in our case i
 ssh heiguser@10.190.132.64
 ```
 
+Then the virtual machine will ask you to enter a password in order to continue.
+
 Note: In our case, we must be connected to the HEIG VPN.
 
-Next, we go to the folder of our application, and then use fetch and pull to get the latest changes if there are any. To start our application, we use docker-compose by using the command:
+Next, we will need to clone the repository using the git clone command.
+
+You will then need to create a folder named 'secrets' containing the file "auth-users.txt".
+We strongly advise you to secure this file as this will store our traefk dashboard password.
+This can be done using the following commands :
+
+```
+mkdir secrets
+htpasswd -c secrets/auth-users.txt admin
+```
+
+To start our application, we use docker-compose by using this command:
+
+```
+sudo docker compose up -d
+```
+
+Result :
 
 ```
 heiguser@IICT-MV364-DAI:~/DAI_Practical_Work_4% sudo docker compose up
@@ -308,14 +326,25 @@ To access our application after deploying it, it's very simple. Just open a brow
 https://dai.timou.ch/dashboard/
 ```
 
-## DNS Zone Configuration
-It depends on the provider. We accessed the domain name provider's website, and we configured the DNS via Infomaniak. We added an A record because the server's address is in IPv4.
+## DNS and Domain Name Configuration
+The DNS zone configuration depends on the DNS provider you will use. In our case we accessed the domain name provider's website (Infomaniak), and configured the DNS through the admin dashboard. We added two A records pointing to our server. 
+One of them will be used for Traefik dashboard and the other one for the api.
+We are using A records because our server's public address is using IPv4.
+Additionally, it may be important to note that this setup requires some basic knowledge of DNS management. We chose Infomaniak as it offers reliable DNS hosting services.
 
-With Traefik, we specify the endpoint for our routers using the configured domain name, which can be changed in the .env file. This file contains variable names that we can use.
+In the context of our application, configuring the .env file correctly is vital as it includes environment-specific variables which Traefik uses to route requests to the appropriate containers.
+This setup ensures that our web application is accessible via the chosen domain name and that the routing is handled efficiently.
 
-Additionally, it may be important to note that this setup requires some basic knowledge of DNS management. We chose Infomaniak as it offers reliable DNS hosting services. The use of an A record is crucial for directing the domain to the correct IPv4 address of our server. In the context of our application, configuring the .env file correctly is vital as it includes environment-specific variables which Traefik uses to route requests to the appropriate containers. This setup ensures that our web application is accessible via the chosen domain name and that the routing is handled efficiently.
-Liste des variables :
-todo
+For the app to work properly you may need to change these environments variables to suit your needs :
+
+- API_DOMAIN_NAME => The api fully qualified domain name
+
+- TRAEFIK_ACME_EMAIL => The email address provided to Let's Encrypt
+
+- TRAEFIK_DOMAIN_NAME => The traefik dashboard fully qualified domain name
+
+- TRAEFIK_IMAGE_VERSION => The image version of traefik (you can keep it to "latest" by default)
+
 
 ## Building and Publishing with Docker
 
