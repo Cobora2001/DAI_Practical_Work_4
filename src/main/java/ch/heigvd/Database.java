@@ -36,27 +36,6 @@ public class Database {
     public Database() {
         this.films = new ConcurrentHashMap<>();
         this.reviews = new ConcurrentHashMap<>();
-
-        // Tests
-        LinkedList<Genre> genres1 = new LinkedList<>();
-        genres1.add(Genre.Animation);
-        LinkedList<Genre> genres2 = new LinkedList<>();
-        genres2.add(Genre.Animation);
-
-        films.put(nextIndex, new Film(nextIndex, "L'Arch de Noe", "Un film sur un element majeur de la religion", genres1));
-        reviews.put(nextIndex++, new ReviewsStorage());
-
-        genres2.add(Genre.Fantasy);
-
-        films.put(nextIndex, new Film(nextIndex, "San Gohan", "Un film de dragon ball", genres2));
-        reviews.put(nextIndex++, new ReviewsStorage());
-
-        reviews.get(1).addReview(4, "No comment because I said so ");
-        films.get(1).addReview(reviews.get(1).getMeanReviews());
-        reviews.get(1).addReview(5, null);
-        films.get(1).addReview(reviews.get(1).getMeanReviews());
-        reviews.get(1).addReview(1, "");
-        films.get(1).addReview(reviews.get(1).getMeanReviews());
     }
 
     /**
@@ -148,13 +127,6 @@ public class Database {
         finalFilm.setDescription(film.getDescription());
         finalFilm.setGenres(film.getGenres());
 
-        /* Je sais pas si on veut garder les reviews ou pas à l'update d'un film
-        finalFilm.setMeanReviews();
-        finalFilm.setNbReviews();
-
-        reviews.get(id).getReviews().clear();
-        */
-
         ctx.json(finalFilm);
     }
 
@@ -206,7 +178,7 @@ public class Database {
     }
 
     /**
-     * Getter of the reviews
+     * Getter of the reviewsg
      * @param ctx Context of the request
      */
     public void getReviews(Context ctx) {
