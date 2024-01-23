@@ -43,6 +43,8 @@ services:
       - traefik.docker.network=traefik
       ## Middlewares
       - traefik.http.middlewares.basic-auth.basicauth.usersFile=/run/secrets/auth_users
+      - traefik.http.middlewares.test-redirectscheme.redirectscheme.scheme=https
+      - traefik.http.middlewares.test-redirectscheme.redirectscheme.permanent=true
       ## HTTPS
       - traefik.http.routers.traefik-https.entrypoints=websecure
       - traefik.http.routers.traefik-https.rule=Host(`${TRAEFIK_DOMAIN_NAME}`)
