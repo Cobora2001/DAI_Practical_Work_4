@@ -1,85 +1,176 @@
+// Authors:
+// Thomas Vuilleumier (@Cobora2001)
+// Sebastian Diaz (@MolinaElGringo)
+//Arthur Menétrey (@Xenogix)
+//Lionel Pollien (@poLionel)
+
 package ch.heigvd;
 
 import java.util.LinkedList;
-import java.util.Objects;
 
+/**
+ * Class representing a film
+ */
 public class Film {
-    static private int nextID = 1;
+    // Default values
+    static private final int meanReviewsDefault = 3;
 
-    private final int id;
+    // Attributes
+    private int id;
     private String title;
     private String description;
-    private final LinkedList<Review> reviews;
-    private final LinkedList<Genre> genres;
+    private LinkedList<Genre> genres;
+    private int nbReviews;
+    private double meanReviews;
 
-    private double meanReview = -1;
+    /**
+     * Constructor
+     */
+    public Film() {
 
-    private Film(String title, String description, LinkedList<Genre> genres) {
-        this.title = title;
-        this.description = description;
-        this.genres = Objects.requireNonNullElseGet(genres, LinkedList::new);
-        this.reviews = new LinkedList<>();
-        this.id = nextID++;
     }
 
-    public Film createFilm(String title, String description, LinkedList<Genre> genres) {
-        if(title == null || title.isEmpty()) {
-            System.out.println("Invalid title, aborting");
-            return null;
-        }
-        return new Film(title, description, genres);
-    }
-
+    /**
+     * set the title of the film
+     * @param title the title of the film
+     */
     public void setTitle(String title) {
         this.title = title;
     }
 
+    /**
+     * set the description of the film
+     * @param description the description of the film
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public void setInfo(String title, String description) {
+    /**
+     * set the genres of the film
+     * @param genres the genres of the film
+     */
+    public void setGenres(LinkedList<Genre> genres) {
+        this.genres = genres;
+    }
+
+    /**
+     * set the number of reviews of the film
+     * @param nbReviews the number of reviews of the film
+     */
+    public void setNbReviews(int nbReviews) {
+        this.nbReviews = nbReviews;
+    }
+
+    /**
+     * set the number of reviews of the film to its default value
+     */
+    public void setNbReviews() {
+        this.nbReviews = 0;
+    }
+
+    /**
+     * set the mean of the reviews of the film
+     * @param meanReviews the mean of the reviews of the film
+     */
+    public void setMeanReviews(double meanReviews) {
+        this.meanReviews = meanReviews;
+    }
+
+    /**
+     * set the mean of the reviews of the film to its default value
+     */
+    public void setMeanReviews() {
+        this.meanReviews = meanReviewsDefault;
+    }
+
+    /**
+     * Constructor
+     * @param id the id of the film
+     * @param title the title of the film
+     * @param description the description of the film
+     * @param genres the genres of the film
+     */
+    public Film(int id, String title, String description, LinkedList<Genre> genres) {
+        this.id = id;
         this.title = title;
         this.description = description;
+        this.genres = genres;
+        setMeanReviews();
+        setNbReviews();
     }
 
-    public void addGenre(Genre genre) {
-        boolean isInList = false;
-        int size = genres.size();
-
-        for(int i = 0; i < size && !isInList; ++i) {
-            if(genre == genres.get(i)) {
-                isInList = true;
-            }
-        }
-
-        if(!isInList) {
-            genres.add(genre);
-        }
+    /**
+     * add a review to the film
+     * @param newMeanReviews the new mean of the reviews of the film
+     */
+    public void addReview(double newMeanReviews) {
+        nbReviews += 1;
+        this.meanReviews = newMeanReviews;
     }
 
-    public void addReview(Review review) {
-        reviews.add(review);
-        meanReview = meanReview();
+    /**
+     * set the id of the film
+     * @param id the id of the film
+     */
+    public void setId(int id) {
+        this.id = id;
     }
 
-    private double meanReview() {
-        int numberOfReviews = 0;
-        double sum = 0;
-
-        for(Review review : reviews) {
-            ++numberOfReviews;
-            sum += review.getRating();
-        }
-
-        return sum / numberOfReviews;
+    /**
+     * delete a review to the film
+     * @param newMeanReviews the new mean of the reviews of the film
+     */
+    public void deleteReview(double newMeanReviews) {
+        nbReviews -= 1;
+        this.meanReviews = newMeanReviews;
     }
 
-    @Override
-    public String toString() {
-        return "ID: " + id + "\nTitle: " + title +
-                "\nDescription: " + description +
-                (meanReview < 0 ? "" : "\nMean of the reviews (3 by default)" + meanReview) +
-                "\nGenre(s): " + genres;
+    /**
+     * get the title of the film
+     * @return the title of the film
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * get the description of the film
+     * @return the description of the film
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * get the genres of the film
+     * @return the genres of the film
+     */
+    public LinkedList<Genre> getGenres() {
+        return genres;
+    }
+
+    /**
+     * get the number of reviews of the film
+     * @return the number of reviews of the film
+     */
+    public int getNbReviews() {
+        return nbReviews;
+    }
+
+    /**
+     * get the mean of the reviews of the film
+     * @return the mean of the reviews of the film
+     */
+    public double getMeanReviews() {
+        return meanReviews;
+    }
+
+    /**
+     * get the id of the film
+     * @return the id of the film
+     */
+    public int getId() {
+        return id;
     }
 }
